@@ -11,8 +11,9 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
-
+using RestaurantManagement.Application.Interfaces.Tracking;
+using RestaurantManagement.Infrastructure.Services.Tracking;
+using RestaurantManagement.Api.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
+builder.Services.AddSignalR();
 
 // thêm nhập token
 
@@ -145,7 +147,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapHub<TrackingHub>("/hubs/tracking");
 app.MapControllers();
 
 app.Run();
