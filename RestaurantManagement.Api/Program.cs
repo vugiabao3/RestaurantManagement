@@ -11,6 +11,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using RestaurantManagement.Application.Interfaces.Kitchen;
+using RestaurantManagement.Infrastructure.Services.Kitchen;
+using RestaurantManagement.Infrastructure.BackgroundJobs;
+using RestaurantManagement.API.Middlewares;
 
 
 
@@ -22,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 // thêm nhập token
 
@@ -104,6 +108,10 @@ builder.Services.AddScoped<
     IJwtTokenGenerator,
     JwtTokenGenerator>();
 
+// Kitchen tracking status module
+builder.Services.AddScoped<IKitchenTrackingService, KitchenTrackingService>();
+builder.Services.AddHostedService<DelayAutoDetectJob>();
+
 builder.Services.AddAuthentication(
     JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -136,11 +144,9 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
