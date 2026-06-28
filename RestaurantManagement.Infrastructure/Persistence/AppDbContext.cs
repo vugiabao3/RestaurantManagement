@@ -18,11 +18,15 @@ namespace RestaurantManagement.Infrastructure.Persistence
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Admin> Admins { get; set; }
+        public DbSet<User> User { get; set; }
 
 
 
         public DbSet<RevenueReport> RevenueReports { get; set; }
+
+        public DbSet<Dish> Dishes { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+
 
     }
 }

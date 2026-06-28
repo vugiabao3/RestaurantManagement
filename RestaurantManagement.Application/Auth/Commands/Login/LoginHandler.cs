@@ -12,15 +12,15 @@ namespace RestaurantManagement.Application.Auth.Commands.Login
     public class LoginHandler
         : IRequestHandler<LoginCommand, LoginResponse>
     {
-        private readonly IAdminRepository _adminRepository;
+        private readonly IUserRepository _userRepository;
 
         private readonly IJwtTokenGenerator _jwt;
 
         public LoginHandler(
-            IAdminRepository adminRepository,
+            IUserRepository userRepository,
             IJwtTokenGenerator jwt)
         {
-            _adminRepository = adminRepository;
+            _userRepository = userRepository;
             _jwt = jwt;
         }
 
@@ -28,24 +28,26 @@ namespace RestaurantManagement.Application.Auth.Commands.Login
             LoginCommand request,
             CancellationToken cancellationToken)
         {
-            var admin = await _adminRepository
-                .GetByUsernameAsync(request.Username);
+            var user = await _userRepository
+                .GetByEmailAsync(request.Email);
 
-            if (admin == null)
+            if (user == null)
             {
-                throw new Exception("Username not found");
+                throw new Exception("User not found");
             }
 
-            if (admin.Password != request.Password)
+            if (user.Password != request.Password)
             {
                 throw new Exception("Wrong password");
             }
 
-            var token = _jwt.GenerateToken(admin);
+            var token = _jwt.GenerateToken(user);
 
             return new LoginResponse
             {
-                Token = token
+                Token = token,
+                Role = user.Role
+
             };
         }
     }

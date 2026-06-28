@@ -16,19 +16,19 @@ namespace RestaurantManagement.Application.Auth.Commands.Register
             RegisterCommand,
             RegisterResponse>
     {
-        private readonly IAdminRepository _adminRepository;
+        private readonly IUserRepository _userRepository;
 
         public RegisterHandler(
-            IAdminRepository adminRepository)
+            IUserRepository userRepository)
         {
-            _adminRepository = adminRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<RegisterResponse> Handle(
             RegisterCommand request,
             CancellationToken cancellationToken)
         {
-            var exists = await _adminRepository
+            var exists = await _userRepository
                 .UsernameExistsAsync(request.Username);
 
             if (exists)
@@ -37,18 +37,19 @@ namespace RestaurantManagement.Application.Auth.Commands.Register
                     "Username already exists");
             }
 
-            var admin = new Admin
+            var user = new User
             {
                 Username = request.Username,
                 Password = request.Password,
                 FullName = request.FullName,
                 Email = request.Email,
                 Phone = request.Phone,
+                Role="User",
                 CreatedAt = DateTime.Now,
                 Status = true
             };
 
-            await _adminRepository.AddAsync(admin);
+            await _userRepository.AddAsync(user);
 
             return new RegisterResponse
             {

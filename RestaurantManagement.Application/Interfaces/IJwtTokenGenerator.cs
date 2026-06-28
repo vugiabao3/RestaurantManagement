@@ -10,6 +10,6 @@ namespace RestaurantManagement.Application.Interfaces
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(Admin admin);
+        string GenerateToken(User admin);
     }
 }

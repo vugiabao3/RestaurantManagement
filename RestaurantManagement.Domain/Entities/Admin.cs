@@ -21,7 +21,7 @@ namespace RestaurantManagement.Domain.Entities
 
         [Column("password")]
         public string Password { get; set; } = string.Empty;
-
+        
         [Column("full_name")]
         public string FullName { get; set; } = string.Empty;
 
@@ -39,5 +39,10 @@ namespace RestaurantManagement.Domain.Entities
 
         [Column("status")]
         public bool Status { get; set; }
+
+
+        public string? ResetPasswordOtp { get; set; }
+
+        public DateTime? ResetPasswordOtpExpiry { get; set; }
     }
 }

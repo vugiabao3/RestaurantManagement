@@ -6,6 +6,7 @@ using RestaurantManagement.Application.Categories.Commands.DeleteCategory;
 using RestaurantManagement.Application.Categories.Commands.UpdateCategory;
 using RestaurantManagement.Application.Categories.Queries.GetAllCategories;
 using RestaurantManagement.Application.Categories.Queries.GetCategoryById;
+using RestaurantManagement.Application.Categories.Queries.GetCategoryDishes;
 using RestaurantManagement.Application.Categories.Queries.SearchCategories;
 
 
@@ -14,7 +15,7 @@ namespace RestaurantManagement.API.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Chef")]
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -91,6 +92,20 @@ namespace RestaurantManagement.API.Controllers
             };
 
             var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet("{id}/dishes")]
+        public async Task<IActionResult>
+GetCategoryDishes(
+    int id
+)
+        {
+            var result =
+                await _mediator.Send(
+                    new GetCategoryDishesQuery(id)
+                );
 
             return Ok(result);
         }

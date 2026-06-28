@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantManagement.Application.Auth.Commands.ForgotPassword;
 using RestaurantManagement.Application.Auth.Commands.Login;
 using RestaurantManagement.Application.Auth.Commands.Register;
+using RestaurantManagement.Application.Auth.Commands.ResetPassword;
 
 namespace RestaurantManagement.API.Controllers
 {
@@ -30,6 +32,25 @@ namespace RestaurantManagement.API.Controllers
            RegisterCommand command)
         {
             var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(
+    ForgotPasswordCommand command)
+        {
+            var result =
+                await _mediator.Send(command);
+
+            return Ok(result);
+        }
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(
+    ResetPasswordCommand command)
+        {
+            var result =
+                await _mediator.Send(command);
 
             return Ok(result);
         }

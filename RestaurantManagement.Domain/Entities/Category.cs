@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using RestaurantManagement.Domain.Entities;
 namespace RestaurantManagement.Domain.Entities
 {
     public class Category
@@ -21,5 +21,10 @@ namespace RestaurantManagement.Domain.Entities
         public DateTime? UpdatedAt { get; set; }
 
         public int? MenuId { get; set; }
+        public Menu? Menu { get; set; }
+
+        public ICollection<Dish> Dishes
+        { get; set; }
+        = new List<Dish>();
     }
 }

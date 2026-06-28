@@ -1,0 +1,96 @@
+.dish-form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.dish-form input,
+.dish-form textarea{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #dcdcdc;
+    border-radius:10px;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+    box-sizing:border-box;
+}
+
+.dish-form input:focus,
+.dish-form textarea:focus{
+    border-color:#3498db;
+    box-shadow:0 0 10px rgba(52,152,219,.2);
+}
+
+.dish-form textarea{
+    min-height:60px;
+    resize:none;
+}
+
+.dish-form label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+    color:#444;
+}
+
+.dish-form button{
+    background:#27ae60;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.dish-form button:hover{
+    background:#219150;
+    transform:translateY(-2px);
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.form-group label{
+    font-size:14px;
+    font-weight:600;
+    color:#2c3e50;
+}
+
+.form-group input,
+.form-group textarea{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid #dcdcdc;
+    border-radius:8px;
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+.form-group textarea{
+    min-height:70px;
+    resize:none;
+}
+
+.checkbox-group{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:5px;
+}
+
+.checkbox-group input{
+    width:auto;
+}
+
+.checkbox-group span{
+    font-size:14px;
+    font-weight:500;
+}

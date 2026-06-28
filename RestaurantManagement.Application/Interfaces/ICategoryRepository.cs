@@ -21,5 +21,9 @@ namespace RestaurantManagement.Application.Interfaces
         Task DeleteAsync(Category category);
         Task<List<Category>> SearchByNameAsync(string keyword);
 
+        Task<List<Dish>> GetDishesByCategoryIdAsync(
+    int categoryId
+);
+
     }
 }
