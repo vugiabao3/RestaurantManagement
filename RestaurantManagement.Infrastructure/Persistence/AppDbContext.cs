@@ -9,18 +9,20 @@ namespace RestaurantManagement.Infrastructure.Persistence
         {
         }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<RevenueReport> RevenueReports { get; set; }
+	public DbSet<Category> Categories { get; set; }
+	public DbSet<User> User { get; set; }
+	public DbSet<RevenueReport> RevenueReports { get; set; }
+	public DbSet<Dish> Dishes { get; set; }
+	public DbSet<Menu> Menus { get; set; }
 
-        // Tracking status module
-        public DbSet<RestaurantTable> RestaurantTables { get; set; }
-        public DbSet<AppUser> Users { get; set; }
-        public DbSet<MenuItem> MenuItems { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
-        public DbSet<KitchenDelayLog> KitchenDelayLogs { get; set; }
+
+	public DbSet<RestaurantTable> RestaurantTables { get; set; }
+	public DbSet<AppUser> Users { get; set; }
+	public DbSet<MenuItem> MenuItems { get; set; }
+	public DbSet<Order> Orders { get; set; }
+	public DbSet<OrderItem> OrderItems { get; set; }
+	public DbSet<Notification> Notifications { get; set; }
+	public DbSet<KitchenDelayLog> KitchenDelayLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

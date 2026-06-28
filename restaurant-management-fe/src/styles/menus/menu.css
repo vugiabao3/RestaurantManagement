@@ -1,0 +1,243 @@
+.menu-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    border:2px solid #e8e8e8;
+
+    display:flex;
+
+    gap:18px;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+    0 5px 15px
+    rgba(0,0,0,.05);
+
+}
+
+.menu-card:hover{
+
+    transform:
+    translateY(-5px);
+
+    border-color:#4f46e5;
+
+    box-shadow:
+    0 15px 35px
+    rgba(79,70,229,.15);
+
+}
+
+.menu-card.active{
+
+    background:
+    linear-gradient(
+        135deg,
+        #4f46e5,
+        #2563eb
+    );
+
+    color:white;
+
+    border-color:
+    transparent;
+
+}
+
+.menu-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+    background:
+    rgba(79,70,229,.08);
+
+    flex-shrink:0;
+
+}
+
+.menu-card.active .menu-icon{
+
+    background:
+    rgba(255,255,255,.2);
+
+}
+
+.menu-body{
+
+    flex:1;
+
+}
+
+.menu-body h3{
+
+    margin:0;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+.menu-body p{
+
+    margin-top:8px;
+
+    color:#666;
+
+    line-height:1.5;
+
+}
+
+.menu-card.active p{
+
+    color:white;
+
+    opacity:.9;
+
+}
+
+.menu-footer{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.status-open{
+
+    background:#22c55e;
+
+    color:white;
+
+    padding:
+
+    8px 16px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.status-close{
+
+    background:#ef4444;
+
+    color:white;
+
+    padding:
+
+    8px 16px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.menu-actions {
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+}
+
+.menu-actions button {
+    padding:5px 10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.menu-actions button:first-child {
+    background:#3498db;
+    color:white;
+}
+
+.menu-actions button:last-child {
+    background:#e74c3c;
+    color:white;
+}
+.menu-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.menu-actions button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-actions button:first-child {
+    background: #f39c12;
+    color: white;
+}
+
+.menu-actions button:last-child {
+    background: #e74c3c;
+    color: white;
+}
+.menu-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.menu-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-edit {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+}

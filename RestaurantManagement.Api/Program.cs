@@ -1,15 +1,16 @@
 
 
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using RestaurantManagement.Application.Categories.Queries.GetAllCategories;
 using RestaurantManagement.Application.Interfaces;
 using RestaurantManagement.Infrastructure.Authentication;
 using RestaurantManagement.Infrastructure.Persistence;
 using RestaurantManagement.Infrastructure.Repositories;
+using RestaurantManagement.Infrastructure.Services;
 using System.Reflection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RestaurantManagement.Application.Interfaces.Kitchen;
 using RestaurantManagement.Infrastructure.Services.Kitchen;
@@ -74,6 +75,19 @@ builder.Services.AddSwaggerGen(options =>
             }
         });
 });
+
+//cho fe truy cập
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReact",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 /// thêm `MediatR`
 
 builder.Services.AddMediatR(cfg =>
@@ -83,12 +97,21 @@ builder.Services.AddMediatR(cfg =>
             "RestaurantManagement.Application"));
 });
 
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<IEmailService, EmailService>();
 
-
+//
+builder.Services.AddScoped<IDishRepository, DishRepository>();
 // di
 builder.Services.AddScoped<
     IReportRepository,
     ReportRepository>();
+
+
+builder.Services.AddScoped<
+    IMenuRepository,
+    MenuRepository>();
 
 // thêm DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -101,8 +124,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped< ICategoryRepository,CategoryRepository>();
 
 builder.Services.AddScoped<
-    IAdminRepository,
-    AdminRepository>();
+    IUserRepository,
+    UserRepository>();
 
 builder.Services.AddScoped<
     IJwtTokenGenerator,
@@ -142,6 +165,7 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+app.UseCors("AllowReact");
 
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionHandlingMiddleware>();

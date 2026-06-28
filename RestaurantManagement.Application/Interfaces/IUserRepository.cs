@@ -8,11 +8,17 @@ using RestaurantManagement.Domain.Entities;
 
 namespace RestaurantManagement.Application.Interfaces
 {
-    public interface IAdminRepository
+    public interface IUserRepository
     {
-        Task<Admin?> GetByUsernameAsync(string username);
+        Task<User?> GetByUsernameAsync(string username);
         Task<bool> UsernameExistsAsync(string username);
 
-        Task AddAsync(Admin admin);
+        Task AddAsync(User user);
+
+        Task<User?> GetByEmailAsync(string email);
+        Task UpdateAsync(User user);
+        Task<User?> GetByIdAsync(int id);
+
+
     }
 }

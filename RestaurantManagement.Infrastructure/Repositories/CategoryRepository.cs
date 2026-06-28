@@ -67,5 +67,19 @@ namespace RestaurantManagement.Infrastructure.Repositories
                 .Where(x => x.Name.Contains(keyword))
                 .ToListAsync();
         }
+
+        public async Task<List<Dish>>
+GetDishesByCategoryIdAsync(
+    int categoryId
+)
+        {
+            return await _context.Dishes
+                .Where(d =>
+                    d.CategoryId == categoryId
+                )
+                .ToListAsync();
+        }
+
+
     }
 }

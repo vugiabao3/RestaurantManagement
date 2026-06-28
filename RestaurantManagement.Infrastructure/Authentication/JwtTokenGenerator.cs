@@ -22,17 +22,25 @@ namespace RestaurantManagement.Infrastructure.Authentication
             _configuration = configuration;
         }
 
-        public string GenerateToken(Admin admin)
+        public string GenerateToken(User user)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub,
-                    admin.AdminId.ToString()),
+                new Claim(
+                    JwtRegisteredClaimNames.Sub,
+                    user.UserId.ToString()),
 
-                new Claim(JwtRegisteredClaimNames.UniqueName,
-                    admin.Username),
+                new Claim(
+                    JwtRegisteredClaimNames.UniqueName,
+                    user.Username),
 
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(
+                    JwtRegisteredClaimNames.Email,
+                    user.Email),
+
+                new Claim(
+                    ClaimTypes.Role,
+                    user.Role)
             };
 
             var key = new SymmetricSecurityKey(
@@ -47,7 +55,7 @@ namespace RestaurantManagement.Infrastructure.Authentication
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.UtcNow.AddHours(3),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler()

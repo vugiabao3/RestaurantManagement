@@ -1,0 +1,105 @@
+.category-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+}
+
+.form-group label{
+
+    font-weight:600;
+
+    color:#2c3e50;
+}
+
+.form-group input,
+.form-group textarea{
+
+    width:100%;
+
+    padding:10px 14px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    box-sizing:border-box;
+
+    transition:.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+
+    outline:none;
+
+    border-color:#3498db;
+
+    box-shadow:0 0 10px rgba(52,152,219,.2);
+}
+
+.form-group textarea{
+
+    min-height:80px;
+
+    resize:none;
+}
+
+.checkbox-group{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-weight:600;
+}
+
+.checkbox-group input{
+
+    width:18px;
+
+    height:18px;
+}
+
+.category-form button{
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#3498db;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.category-form button:hover{
+
+    background:#2980b9;
+
+    transform:translateY(-2px);
+}

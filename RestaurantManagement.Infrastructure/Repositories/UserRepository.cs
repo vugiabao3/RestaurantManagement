@@ -11,20 +11,20 @@ using RestaurantManagement.Infrastructure.Persistence;
 
 namespace RestaurantManagement.Infrastructure.Repositories
 {
-    public class AdminRepository : IAdminRepository
+    public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
 
-        public AdminRepository(
+        public UserRepository(
             AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Admin?> GetByUsernameAsync(
+        public async Task<User?> GetByUsernameAsync(
             string username)
         {
-            return await _context.Admins
+            return await _context.User
                 .FirstOrDefaultAsync(x =>
                     x.Username == username);
         }
@@ -32,15 +32,35 @@ namespace RestaurantManagement.Infrastructure.Repositories
         public async Task<bool> UsernameExistsAsync(
             string username)
         {
-            return await _context.Admins
+            return await _context.User
                 .AnyAsync(x => x.Username == username);
         }
 
-        public async Task AddAsync(Admin admin)
+        public async Task AddAsync(User admin)
         {
-            await _context.Admins.AddAsync(admin);
+            await _context.User.AddAsync(admin);
 
             await _context.SaveChangesAsync();
         }
+        public async Task<User?> GetByEmailAsync(
+     string email)
+        {
+            return await _context.User
+                .FirstOrDefaultAsync(
+                    x => x.Email == email);
+        }
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            return await _context.User
+                .FirstOrDefaultAsync(x =>
+                    x.UserId == id);
+        }
+        public async Task UpdateAsync(User admin)
+        {
+            _context.User.Update(admin);
+
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
