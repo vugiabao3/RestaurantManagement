@@ -1,127 +1,124 @@
-
-
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using RestaurantManagement.Application.Categories.Queries.GetAllCategories;
+using Microsoft.OpenApi.Models;
+using RestaurantManagement.API.Hubs;
+using RestaurantManagement.API.Middleware;
+using RestaurantManagement.API.Services;
 using RestaurantManagement.Application.Interfaces;
+using RestaurantManagement.Application.Interfaces.Kitchen;
 using RestaurantManagement.Infrastructure.Authentication;
+using RestaurantManagement.Infrastructure.BackgroundJobs;
 using RestaurantManagement.Infrastructure.Persistence;
 using RestaurantManagement.Infrastructure.Repositories;
 using RestaurantManagement.Infrastructure.Services;
+using RestaurantManagement.Infrastructure.Services.Kitchen;
 using System.Reflection;
 using System.Text;
-using RestaurantManagement.Application.Interfaces.Kitchen;
-using RestaurantManagement.Infrastructure.Services.Kitchen;
-using RestaurantManagement.Infrastructure.BackgroundJobs;
-using RestaurantManagement.API.Middlewares;
-
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-
-// thêm nhập token
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1",
-        new Microsoft.OpenApi.Models.OpenApiInfo
+    options.SwaggerDoc(
+        "v1",
+        new OpenApiInfo
         {
             Title = "Restaurant Management API",
             Version = "v1"
         });
 
-    options.AddSecurityDefinition("Bearer",
-        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    options.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
         {
             Name = "Authorization",
-            Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+            Type = SecuritySchemeType.Http,
             Scheme = "bearer",
             BearerFormat = "JWT",
-            In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-            Description = "Nhập JWT Token"
-
-            // ví dụ:
-            // eyJhbGciOi...
+            In = ParameterLocation.Header,
+            Description = "Nhập JWT token"
         });
 
     options.AddSecurityRequirement(
-        new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+        new OpenApiSecurityRequirement
         {
             {
-                new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                new OpenApiSecurityScheme
                 {
-                    Reference =
-                        new Microsoft.OpenApi.Models.OpenApiReference
-                        {
-                            Type =
-                                Microsoft.OpenApi.Models.ReferenceType
-                                    .SecurityScheme,
-
-                            Id = "Bearer"
-                        }
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
                 },
-
                 Array.Empty<string>()
             }
         });
 });
 
-//cho fe truy cập
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReact",
+    options.AddPolicy(
+        "AllowReact",
         policy =>
         {
             policy
                 .WithOrigins("http://localhost:5173")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
-/// thêm `MediatR`
 
-builder.Services.AddMediatR(cfg =>
+
+builder.Services.AddMediatR(configuration =>
 {
-    cfg.RegisterServicesFromAssembly(
-        Assembly.Load(
-            "RestaurantManagement.Application"));
+    configuration.RegisterServicesFromAssembly(
+        Assembly.Load("RestaurantManagement.Application"));
 });
+
 
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
+
 builder.Services.AddScoped<IEmailService, EmailService>();
 
-//
-builder.Services.AddScoped<IDishRepository, DishRepository>();
-// di
-builder.Services.AddScoped<
-    IReportRepository,
-    ReportRepository>();
 
-
-builder.Services.AddScoped<
-    IMenuRepository,
-    MenuRepository>();
-
-// thêm DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(
         builder.Configuration.GetConnectionString(
             "DefaultConnection"));
 });
-//thêm repository
-builder.Services.AddScoped< ICategoryRepository,CategoryRepository>();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<
+    ICurrentUserService,
+    CurrentUserService>();
+
+builder.Services.AddScoped<
+    IDishRepository,
+    DishRepository>();
+
+builder.Services.AddScoped<
+    IReportRepository,
+    ReportRepository>();
+
+builder.Services.AddScoped<
+    IMenuRepository,
+    MenuRepository>();
+
+builder.Services.AddScoped<
+    ICategoryRepository,
+    CategoryRepository>();
 
 builder.Services.AddScoped<
     IUserRepository,
@@ -131,12 +128,77 @@ builder.Services.AddScoped<
     IJwtTokenGenerator,
     JwtTokenGenerator>();
 
-// Kitchen tracking status module
-builder.Services.AddScoped<IKitchenTrackingService, KitchenTrackingService>();
-builder.Services.AddHostedService<DelayAutoDetectJob>();
+builder.Services.AddScoped<
+    IKitchenTrackingService,
+    KitchenTrackingService>();
 
-builder.Services.AddAuthentication(
-    JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddHostedService<
+    DelayAutoDetectJob>();
+
+
+builder.Services.AddScoped<
+    IOrderRepository,
+    OrderRepository>();
+
+builder.Services.AddScoped<
+    IStatusHistoryRepository,
+    StatusHistoryRepository>();
+
+builder.Services.AddScoped<
+    IMenuItemRepository,
+    MenuItemRepository>();
+
+builder.Services.AddScoped<
+    IKitchenAreaRepository,
+    KitchenAreaRepository>();
+
+builder.Services.AddScoped<
+    IAuditLogRepository,
+    AuditLogRepository>();
+
+builder.Services.AddScoped<
+    IKitchenAnalyticsRepository,
+    KitchenAnalyticsRepository>();
+
+
+builder.Services.AddScoped<
+    IAuditLogService,
+    AuditLogService>();
+
+builder.Services.AddScoped<
+    IStatusHistoryService,
+    StatusHistoryService>();
+
+
+builder.Services.AddMemoryCache();
+
+builder.Services.AddSingleton<
+    ICacheService,
+    MemoryCacheService>();
+
+
+builder.Services.AddSignalR();
+
+builder.Services.AddScoped<
+    INotificationService,
+    SignalRNotificationService>();
+
+
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException(
+        "Không tìm thấy cấu hình Jwt:Key.");
+
+var jwtIssuer = builder.Configuration["Jwt:Issuer"]
+    ?? throw new InvalidOperationException(
+        "Không tìm thấy cấu hình Jwt:Issuer.");
+
+var jwtAudience = builder.Configuration["Jwt:Audience"]
+    ?? throw new InvalidOperationException(
+        "Không tìm thấy cấu hình Jwt:Audience.");
+
+builder.Services
+    .AddAuthentication(
+        JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters =
@@ -147,35 +209,67 @@ builder.Services.AddAuthentication(
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
 
-                ValidIssuer =
-                    builder.Configuration["Jwt:Issuer"],
-
-                ValidAudience =
-                    builder.Configuration["Jwt:Audience"],
+                ValidIssuer = jwtIssuer,
+                ValidAudience = jwtAudience,
 
                 IssuerSigningKey =
                     new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(
-                            builder.Configuration["Jwt:Key"]!))
+                        Encoding.UTF8.GetBytes(jwtKey)),
+
+                ClockSkew = TimeSpan.Zero
             };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken =
+                    context.Request.Query["access_token"];
+
+                var requestPath =
+                    context.HttpContext.Request.Path;
+
+                if (!string.IsNullOrWhiteSpace(accessToken) &&
+                    requestPath.StartsWithSegments(
+                        "/hubs/kitchen"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            },
+
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine(
+                    "JWT authentication failed: " +
+                    $"{context.Exception.GetType().Name}: " +
+                    context.Exception.Message);
+
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddAuthorization();
 
-
-
 var app = builder.Build();
-app.UseCors("AllowReact");
 
-// Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowReact");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<KitchenHub>(
+    "/hubs/kitchen");
 
 app.Run();

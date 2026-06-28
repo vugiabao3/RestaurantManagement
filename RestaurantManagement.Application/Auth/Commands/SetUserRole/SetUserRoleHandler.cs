@@ -38,7 +38,7 @@ namespace RestaurantManagement.Application.Auth.Commands.SetUserRole
             var validRoles = new[]
             {
             "Admin",
-            "Chef",
+            "Kitchen",
             "Staff"
         };
 
@@ -61,3 +61,4 @@ namespace RestaurantManagement.Application.Auth.Commands.SetUserRole
         }
     }
 }
+
