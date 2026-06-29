@@ -19,7 +19,7 @@ public class CreateDishCommand
         = string.Empty;
 
     public bool Status { get; set; }
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
 
     public int CategoryId { get; set; }

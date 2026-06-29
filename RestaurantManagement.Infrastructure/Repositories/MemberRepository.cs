@@ -51,4 +51,16 @@ public class MemberRepository : IMemberRepository
     {
         return _context.MemberCards;
     }
+    // 1. Hàm tìm thành viên theo mã thẻ
+    public async Task<MemberCard?> GetByCardIdAsync(string cardId)
+    {
+        return await _context.MemberCards.FirstOrDefaultAsync(m => m.CardId == cardId);
+    }
+
+    // 2. Hàm cập nhật thông tin thành viên (trừ/cộng điểm)
+    public Task UpdateAsync(MemberCard member)
+    {
+        _context.MemberCards.Update(member);
+        return Task.CompletedTask; 
+    }
 }

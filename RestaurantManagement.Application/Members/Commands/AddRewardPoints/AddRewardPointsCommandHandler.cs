@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using RestaurantManagement.Application.Interfaces;
 
-namespace RestaurantManagement.Application.Members.Commands.AddRewardPoints;
-
+namespace RestaurantManagement.Application.Members.Commands;
 public class AddRewardPointsCommandHandler : IRequestHandler<AddRewardPointsCommand, bool>
 {
     private readonly IUnitOfWork _unitOfWork;

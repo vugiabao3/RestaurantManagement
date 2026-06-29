@@ -1,7 +1,6 @@
 using MediatR;
 
-namespace RestaurantManagement.Application.Members.Commands.AddRewardPoints;
-
+namespace RestaurantManagement.Application.Members.Commands;
 public class AddRewardPointsCommand : IRequest<bool>
 {
     public int MemberId { get; set; }

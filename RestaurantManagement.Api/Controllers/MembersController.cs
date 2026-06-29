@@ -1,7 +1,10 @@
+using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-// Đã sửa lại đường dẫn trỏ đúng vào folder CreateMember của bạn
 using RestaurantManagement.Application.Members.Commands.CreateMember;
+using RestaurantManagement.Application.Members.Commands.ApplyPoints;
+using RestaurantManagement.Application.Members.Queries;
 
 namespace RestaurantManagement.API.Controllers
 {
@@ -17,7 +20,6 @@ namespace RestaurantManagement.API.Controllers
         }
 
         [HttpPost("register")]
-        // Đã đổi RegisterMemberCardCommand thành CreateMemberCommand
         public async Task<IActionResult> RegisterMember([FromBody] CreateMemberCommand command) 
         {
             if (command == null)
@@ -33,6 +35,41 @@ namespace RestaurantManagement.API.Controllers
                     message = "Đăng ký thành viên thành công!", 
                     memberId = memberId 
                 });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // UC_PAY_03: Lấy thông tin thành viên qua việc Quét thẻ (CardId)
+        [HttpGet("card/{cardId}")]
+        public async Task<IActionResult> GetMemberByCardId(string cardId)
+        {
+            var query = new GetMemberByCardIdQuery(cardId);
+            var result = await _mediator.Send(query);
+            
+            if (result == null)
+            {
+                return NotFound(new { message = "Thẻ thành viên không tồn tại trong hệ thống." });
+            }
+            
+            return Ok(result);
+        }
+
+        // UC_PAY_03: Thực hiện đổi điểm thưởng giảm giá trực tiếp
+        [HttpPost("apply-points")]
+        public async Task<IActionResult> ApplyPoints([FromBody] ApplyPointsCommand command)
+        {
+            if (command == null)
+            {
+                return BadRequest(new { message = "Dữ liệu yêu cầu không hợp lệ." });
+            }
+
+            try
+            {
+                var success = await _mediator.Send(command);
+                return Ok(new { message = "Áp dụng điểm thưởng thành công!" });
             }
             catch (Exception ex)
             {
