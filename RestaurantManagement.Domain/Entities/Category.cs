@@ -22,9 +22,11 @@ namespace RestaurantManagement.Domain.Entities
 
         public int? MenuId { get; set; }
         public Menu? Menu { get; set; }
-
+        public string CategoryName { get; set; } = string.Empty;
+        public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
         public ICollection<Dish> Dishes
         { get; set; }
         = new List<Dish>();
+
     }
 }
