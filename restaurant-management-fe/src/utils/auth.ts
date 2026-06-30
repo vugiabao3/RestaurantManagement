@@ -14,7 +14,9 @@ export const isAdmin = (): boolean => {
     return getRole() === "Admin";
 
 };
-
+export const isChef = (): boolean => {
+    return getRole() === "Chef";
+};
 // =========================
 
 // Staff
@@ -27,23 +29,23 @@ export const isStaff = (): boolean => {
 
 // =========================
 
-// User
+// Customer
 
-export const isUser = (): boolean => {
+export const isCustomer = (): boolean => {
 
-    return getRole() === "User";
+    return getRole() === "Customer";
 
 };
 
 // =========================
 
-// Admin hoặc Staff
+// Admin hoặc Chef
 
 export const canManage = (): boolean => {
 
     const role = getRole();
 
-    return role === "Admin" || role === "Staff";
+    return role === "Admin" || role === "Chef";
 
 };
 

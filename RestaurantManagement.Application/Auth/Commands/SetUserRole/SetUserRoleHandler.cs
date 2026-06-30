@@ -39,7 +39,9 @@ namespace RestaurantManagement.Application.Auth.Commands.SetUserRole
             {
             "Admin",
             "Chef",
-            "Staff"
+            "Customer",
+            "Cashier",
+            "CustomerMember"
         };
 
             if (!validRoles.Contains(request.Role))

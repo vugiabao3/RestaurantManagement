@@ -54,6 +54,28 @@ namespace RestaurantManagement.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.DiningTable", b =>
+                {
+                    b.Property<int>("TableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TableNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TableId");
+
+                    b.ToTable("DiningTables");
+                });
+
             modelBuilder.Entity("RestaurantManagement.Domain.Entities.Dish", b =>
                 {
                     b.Property<int>("DishId")
@@ -89,6 +111,75 @@ namespace RestaurantManagement.Infrastructure.Migrations
                     b.ToTable("Dishes");
                 });
 
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.Invoice", b =>
+                {
+                    b.Property<int>("InvoiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("FinalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("MemberCardMemberId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PaidAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("MemberCardMemberId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.MemberCard", b =>
+                {
+                    b.Property<int>("MemberId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+
+                    b.Property<string>("CardId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LoyaltyPoints")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MemberId");
+
+                    b.ToTable("MemberCards");
+                });
+
             modelBuilder.Entity("RestaurantManagement.Domain.Entities.Menu", b =>
                 {
                     b.Property<int>("MenuId")
@@ -116,6 +207,77 @@ namespace RestaurantManagement.Infrastructure.Migrations
                     b.HasKey("MenuId");
 
                     b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MemberCardMemberId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TableId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("MemberCardMemberId");
+
+                    b.HasIndex("TableId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("OrderItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+
+                    b.Property<int>("DishId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderItemId");
+
+                    b.HasIndex("DishId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("RestaurantManagement.Domain.Entities.RevenueReport", b =>
@@ -225,14 +387,90 @@ namespace RestaurantManagement.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.Invoice", b =>
+                {
+                    b.HasOne("RestaurantManagement.Domain.Entities.MemberCard", "MemberCard")
+                        .WithMany("Invoices")
+                        .HasForeignKey("MemberCardMemberId");
+
+                    b.HasOne("RestaurantManagement.Domain.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MemberCard");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("RestaurantManagement.Domain.Entities.User", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RestaurantManagement.Domain.Entities.MemberCard", "MemberCard")
+                        .WithMany()
+                        .HasForeignKey("MemberCardMemberId");
+
+                    b.HasOne("RestaurantManagement.Domain.Entities.DiningTable", "Table")
+                        .WithMany("Orders")
+                        .HasForeignKey("TableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("MemberCard");
+
+                    b.Navigation("Table");
+                });
+
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("RestaurantManagement.Domain.Entities.Dish", "Dish")
+                        .WithMany()
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RestaurantManagement.Domain.Entities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("RestaurantManagement.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Dishes");
                 });
 
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.DiningTable", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.MemberCard", b =>
+                {
+                    b.Navigation("Invoices");
+                });
+
             modelBuilder.Entity("RestaurantManagement.Domain.Entities.Menu", b =>
                 {
                     b.Navigation("Categories");
+                });
+
+            modelBuilder.Entity("RestaurantManagement.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,49 @@
+.report-container {
+    padding: 30px;
+    background: #f6f8fc;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.report-container h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+/* từng section (Dish / Category / Menu) */
+.report-section {
+    margin-bottom: 35px;
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.report-section h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #34495e;
+}
+
+/* grid thống kê */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+/* placeholder */
+.coming-soon {
+    margin-top: 30px;
+    padding: 30px;
+    background: white;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.coming-soon h2 {
+    font-size: 22px;
+    color: #e67e22;
+}

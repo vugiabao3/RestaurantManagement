@@ -38,7 +38,11 @@ public class SearchDishesHandler
                 {
                     DishId = x.DishId,
                     Name = x.Name,
-                    Price = x.Price
+                    Price = x.Price,
+                    Description = x.Description,
+                    Status = x.Status,
+                    ImageUrl = x.ImageUrl,
+                    CategoryId = x.CategoryId
                 })
             .ToList();
     }

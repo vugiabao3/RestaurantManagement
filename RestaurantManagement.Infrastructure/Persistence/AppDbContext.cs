@@ -26,7 +26,24 @@ namespace RestaurantManagement.Infrastructure.Persistence
 
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Menu> Menus { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
+        public DbSet<OrderItem> OrderItems
+        {
+            get;
+            set;
+        }
+        public DbSet<MemberCard> MemberCards { get; set; }
 
+        public DbSet<DiningTable> DiningTables { get; set; }
+
+        public DbSet<Invoice> Invoices { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<DiningTable>()
+                .HasKey(x => x.TableId);
+        }
     }
 }

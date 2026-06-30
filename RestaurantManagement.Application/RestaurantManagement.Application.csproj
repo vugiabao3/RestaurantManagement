@@ -17,4 +17,12 @@
     <ProjectReference Include="..\RestaurantManagement.Domain\RestaurantManagement.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\HI TCC\source\repos\RestaurantManagement\RestaurantManagement.Application\Orders\Commands\AddDishToCart\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\HI TCC\source\repos\RestaurantManagement\RestaurantManagement.Application\Orders\Commands\AddDishToCart\.editorconfig" />
+  </ItemGroup>
+
 </Project>

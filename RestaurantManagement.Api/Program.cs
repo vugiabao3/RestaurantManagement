@@ -108,6 +108,22 @@ builder.Services.AddScoped<
 builder.Services.AddScoped<
     IMenuRepository,
     MenuRepository>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+
+builder.Services.AddScoped<ITableRepository, TableRepository>();
+
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<
+    IOrderRepository,
+    OrderRepository>();
+
+builder.Services.AddScoped<
+    IMemberRepository,
+    MemberRepository>();
+
+builder.Services.AddScoped<
+    IOrderItemRepository,
+    OrderItemRepository>();
 
 // thêm DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>

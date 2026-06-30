@@ -11,28 +11,48 @@ export default function LoginForm() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (
-        e: React.FormEvent
-    ) => {
+    const handleSubmit = async (e: React.FormEvent) => {
 
         e.preventDefault();
 
         try {
 
-           const response = await login({
-    email,
-    password
-});
+            const response = await login({
+                email,
+                password
+            });
 
-const token = response.data.token;
-const role = response.data.role;
+            // DATA FROM API
+            const {
+    token,
+    role,
+    userId
+} = response.data;
 
 localStorage.setItem("token", token);
 localStorage.setItem("role", role);
+localStorage.setItem("userId", String(userId));
 
-alert("Đăng nhập thành công");
+         
 
-navigate("/dashboard");
+            // CUSTOMER ID
+        
+
+            alert("Đăng nhập thành công");
+
+            // REDIRECT
+            // REDIRECT
+if (role === "Admin") {
+    navigate("/dashboard");
+} else if (role === "Chef") {
+    navigate("/chef");
+} else if (role === "Cashier") {
+    navigate("/cashier");
+} else if (role === "Customer") {
+    navigate("/menus");
+} else {
+    navigate("/menus"); // fallback an toàn
+}
 
         } catch (error) {
 

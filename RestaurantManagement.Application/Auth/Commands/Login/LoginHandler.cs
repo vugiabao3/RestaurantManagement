@@ -46,7 +46,8 @@ namespace RestaurantManagement.Application.Auth.Commands.Login
             return new LoginResponse
             {
                 Token = token,
-                Role = user.Role
+                Role = user.Role,
+                UserId = user.UserId
 
             };
         }

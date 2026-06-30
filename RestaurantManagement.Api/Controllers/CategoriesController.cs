@@ -27,6 +27,7 @@ namespace RestaurantManagement.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(
@@ -97,6 +98,7 @@ namespace RestaurantManagement.API.Controllers
         }
 
         [HttpGet("{id}/dishes")]
+        [AllowAnonymous]
         public async Task<IActionResult>
 GetCategoryDishes(
     int id

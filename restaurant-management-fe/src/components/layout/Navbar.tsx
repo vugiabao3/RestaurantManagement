@@ -26,7 +26,7 @@ export default function Navbar() {
         <div className="navbar">
 
             <h3>
-                Trang chủ
+                TRANG CHỦ
             </h3>
 
             <button
@@ -34,7 +34,7 @@ export default function Navbar() {
                     handleLogout
                 }
             >
-                Đăng xuất
+                ĐĂNG XUẤT
             </button>
 
         </div>

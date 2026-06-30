@@ -1,0 +1,51 @@
+.report-page {
+    padding: 30px;
+    background: #f6f8fc;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.report-page h1 {
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #2c3e50;
+}
+
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Report card chọn loại báo cáo */
+.report-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 2px solid transparent;
+}
+
+.report-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border-color: #3498db;
+}
+
+.report-card h3 {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.report-card p {
+    color: #7f8c8d;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.report-icon {
+    font-size: 40px;
+}

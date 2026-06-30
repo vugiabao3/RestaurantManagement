@@ -5,13 +5,10 @@ export default function Dashboard() {
         <div>
 
             <h1>
-                Chào mừng đến hệ thống
-                quản lý nhà hàng
+                CHÀO MỪNG ĐẾN VỚI NHÀ HÀNG MICHELIN
             </h1>
 
-            <p>
-                Xin chào Admin
-            </p>
+            
 
         </div>
 

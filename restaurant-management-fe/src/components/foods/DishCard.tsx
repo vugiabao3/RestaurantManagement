@@ -8,12 +8,14 @@ interface Props {
     onEdit?: (dish: Dish) => void;
 
     onDelete?: (id:number) => void;
+
 }
 
 export default function DishCard({
     dish,
     onEdit,
-    onDelete
+    onDelete,
+    
 }: Props) {
 
     return (
@@ -86,7 +88,10 @@ export default function DishCard({
             </button>
         )}
 
+        
+
     </div>
+    
 )}
 
             </div>
