@@ -9,8 +9,8 @@ interface Props {
 }
 
 export default function UserCard({ user, onUpdated }: Props) {
-    const [role, setRole] = useState(user.role);
-    const [loading, setLoading] = useState(false);
+
+const [role, setRole] = useState(user?.role ?? "Customer");    const [loading, setLoading] = useState(false);
 
     const handleUpdate = async () => {
         try {

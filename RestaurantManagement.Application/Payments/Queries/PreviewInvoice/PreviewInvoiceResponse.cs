@@ -19,4 +19,7 @@ public class PreviewInvoiceResponse
     public bool HasMemberCard { get; set; }
 
     public string? MemberName { get; set; }
+    public int LoyaltyPoints { get; set; }
+
+
 }

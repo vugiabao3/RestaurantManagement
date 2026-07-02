@@ -1,4 +1,4 @@
-﻿namespace RestaurantManagement.Domain.Entities;
+﻿using RestaurantManagement.Domain.Entities;
 
 public class Order
 {
@@ -10,19 +10,16 @@ public class Order
 
     public decimal TotalAmount { get; set; }
 
-    public string Status { get; set; }
-        = "Cart";
+    public string Status { get; set; } = "Cart";
 
     public DateTime CreatedAt { get; set; }
 
-    public ICollection<OrderItem> OrderItems
-    {
-        get;
-        set;
-    }
-    = new List<OrderItem>();
+    public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+    // ✅ FK DUY NHẤT
     public int? MemberId { get; set; }
 
+    // ❌ navigation phải map đúng FK
     public MemberCard? MemberCard { get; set; }
 
     public int TableId { get; set; }

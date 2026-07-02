@@ -9,3 +9,4 @@ export interface ChangeRoleRequest {
     userId: number;
     role: string;
 }
+

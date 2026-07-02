@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { registerMember } from "../../api/memberApi";
 import "../../styles/cashier/member.css";
-
-export default function MemberRegisterForm() {
-
+interface MemberRegisterFormProps {
+    onSuccess?: () => void;
+}
+export default function MemberRegisterForm({
+    onSuccess
+}: MemberRegisterFormProps) {
     const [fullName, setFullName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [loading, setLoading] = useState(false);
@@ -31,12 +34,15 @@ ${res.data.message}`
             );
 
             localStorage.setItem(
-                "memberId",
-                String(res.data.memberId)
-            );
+    "memberId",
+    String(res.data.memberId)
+);
 
-            setFullName("");
-            setPhoneNumber("");
+setFullName("");
+setPhoneNumber("");
+
+// đóng popup
+onSuccess?.();
 
         } catch (err: any) {
 

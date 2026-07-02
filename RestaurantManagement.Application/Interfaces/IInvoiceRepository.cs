@@ -11,4 +11,6 @@ public interface IInvoiceRepository
     Task<List<Invoice>> GetByOrderIdAsync(int orderId);
 
     Task<List<Invoice>> GetAllAsync();
+    // Lấy hóa đơn theo năm
+    Task<List<Invoice>> GetInvoicesByYearAsync(int year);
 }

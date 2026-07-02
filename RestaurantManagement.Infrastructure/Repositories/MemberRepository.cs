@@ -21,10 +21,10 @@ public class MemberRepository : IMemberRepository
             .FirstOrDefaultAsync(x => x.MemberId == memberId);
     }
 
-    public async Task<MemberCard?> GetByPhoneAsync(string phone)
+    public async Task<MemberCard?> GetByUserIdAsync(int userId)
     {
         return await _context.MemberCards
-            .FirstOrDefaultAsync(x => x.PhoneNumber == phone);
+            .FirstOrDefaultAsync(x => x.UserId == userId);
     }
 
     public async Task AddAsync(MemberCard member)

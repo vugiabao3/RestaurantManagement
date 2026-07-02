@@ -41,4 +41,16 @@ public class InvoiceRepository : IInvoiceRepository
             .Include(x => x.Order)
             .ToListAsync();
     }
+
+    //----------------------------------------------------
+    // GET INVOICES BY YEAR
+    //----------------------------------------------------
+
+    public async Task<List<Invoice>> GetInvoicesByYearAsync(int year)
+    {
+        return await _context.Invoices
+            .Where(i => i.PaidAt.Year == year)
+            .OrderBy(i => i.PaidAt)
+            .ToListAsync();
+    }
 }

@@ -45,6 +45,9 @@ export default function AppRoutes() {
 
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/chef" element={<ChefOrderPage />} />
+                <Route path="/cashier" element={<CashierDashboard />} />
+
+    <Route path="/members" element={<MemberRegisterPage />} />
 
                 <Route path="/reports" element={<ReportPage />} />
                 <Route path="/reports/food" element={<FoodReportPage />} />

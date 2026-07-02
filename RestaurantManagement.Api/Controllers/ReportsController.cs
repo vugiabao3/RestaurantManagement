@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagement.Application.Reports.Queries.GetRevenueReport;
+using RestaurantManagement.Application.Reports.Queries.RevenueByYear;
 
 namespace RestaurantManagement.API.Controllers
 {
@@ -18,19 +19,19 @@ namespace RestaurantManagement.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("revenue")]
-        public async Task<IActionResult>
-            GetRevenueReport(
-                [FromQuery] DateTime startDate,
-                [FromQuery] DateTime endDate)
+        /// <summary>
+        /// Lấy báo cáo doanh thu theo năm
+        /// </summary>
+        /// <param name="year">Ví dụ: 2026</param>
+        /// <returns>Danh sách doanh thu 12 tháng trong năm</returns>
+        [HttpGet("revenue/{year}")]
+        public async Task<IActionResult> GetRevenueByYear(int year)
         {
-            var query = new GetRevenueReportQuery
-            {
-                StartDate = startDate,
-                EndDate = endDate
-            };
-
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(
+                new RevenueByYearQuery
+                {
+                    Year = year
+                });
 
             return Ok(result);
         }

@@ -44,6 +44,12 @@ namespace RestaurantManagement.Infrastructure.Persistence
 
             modelBuilder.Entity<DiningTable>()
                 .HasKey(x => x.TableId);
+
+            modelBuilder.Entity<Order>()
+     .HasOne(o => o.MemberCard)
+     .WithMany()
+     .HasForeignKey(o => o.MemberId)
+     .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -18,8 +18,13 @@ public class RegisterMemberHandler
         RegisterMemberCommand request,
         CancellationToken cancellationToken)
     {
+        if (request.UserId == null)
+        {
+            throw new Exception("UserId is required.");
+        }
+
         var existing = await _memberRepo
-            .GetByPhoneAsync(request.PhoneNumber);
+            .GetByUserIdAsync(request.UserId.Value);
 
         if (existing != null)
         {
@@ -52,6 +57,6 @@ public class RegisterMemberHandler
 
     private string GenerateCardId()
     {
-        return "MB" + DateTime.Now.Ticks.ToString()[..6];
+        return "MB" + Guid.NewGuid().ToString("N")[..8].ToUpper();
     }
 }

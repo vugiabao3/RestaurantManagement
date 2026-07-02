@@ -1,46 +1,11 @@
 import { useState } from "react";
-import { registerMember } from "../../api/memberApi";
-
+import MemberRegisterForm from "../../components/cashier/MemberRegisterForm";
+import "../../styles/cashier/cashierDashboard.css";
+import { useNavigate } from "react-router-dom";
 export default function CashierDashboard() {
 
-    const [open, setOpen] = useState(false);
-
-    const [fullName, setFullName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [userId, setUserId] = useState<number>(0);
-
-    const [result, setResult] = useState<any>(null);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-
-        e.preventDefault();
-
-        try {
-
-            const res = await registerMember({
-                fullName,
-                phoneNumber,
-                userId
-            });
-
-            setResult(res.data);
-
-            alert(
-                `MemberID: ${res.data.memberId}
-Card: ${res.data.cardId}
-${res.data.message}`
-            );
-
-        } catch (err: any) {
-
-            console.log(err);
-
-            alert(err.response?.data?.message || "Lỗi đăng ký");
-
-        }
-
-    };
-
+    const [openMemberForm, setOpenMemberForm] = useState(false);
+const navigate = useNavigate();
     return (
 
         <div className="cashier-dashboard">
@@ -51,92 +16,49 @@ ${res.data.message}`
 
             <div className="cashier-menu">
 
-                {/* OPEN FORM BUTTON */}
-                <button
+                {/* MEMBER */}
+                <div
                     className="cashier-card"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpenMemberForm(true)}
                 >
-                    👤 Đăng ký thành viên
-                </button>
+                    <h2>👤 Đăng ký thành viên</h2>
+                    <p>Tạo thẻ thành viên cho khách hàng</p>
+                </div>
 
-                <button className="cashier-card">
-                    💰 Thanh toán
-                </button>
+                {/* PAYMENT (chưa làm) */}
+                <div
+    className="cashier-card"
+    onClick={() => navigate("/payments")}
+>
+
+    <h2>💰 Thanh toán</h2>
+
+    <p>Thanh toán hóa đơn</p>
+
+</div>
 
             </div>
 
-            {/* MODAL FORM */}
-            {open && (
-
+            {/* POPUP FORM */}
+            {openMemberForm && (
                 <div className="modal-overlay">
 
-                    <div className="modal">
+                    <div className="modal-box">
 
-                        <h2>Đăng ký thành viên</h2>
+                        <button
+                            className="close-btn"
+                            onClick={() => setOpenMemberForm(false)}
+                        >
+                            ✖
+                        </button>
 
-                        <form onSubmit={handleSubmit}>
-
-                            <input
-                                placeholder="Full Name"
-                                value={fullName}
-                                onChange={(e) =>
-                                    setFullName(e.target.value)
-                                }
-                            />
-
-                            <input
-                                placeholder="Phone Number"
-                                value={phoneNumber}
-                                onChange={(e) =>
-                                    setPhoneNumber(e.target.value)
-                                }
-                            />
-
-                            <input
-                                placeholder="User ID"
-                                type="number"
-                                value={userId}
-                                onChange={(e) =>
-                                    setUserId(Number(e.target.value))
-                                }
-                            />
-
-                            <div style={{ marginTop: 10 }}>
-
-                                <button type="submit">
-                                    Đăng ký
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={() => setOpen(false)}
-                                >
-                                    Hủy
-                                </button>
-
-                            </div>
-
-                        </form>
-
-                        {/* RESULT */}
-                        {result && (
-
-                            <div style={{ marginTop: 20 }}>
-
-                                <h3>Kết quả</h3>
-
-                                <p>MemberId: {result.memberId}</p>
-                                <p>CardId: {result.cardId}</p>
-                                <p>{result.message}</p>
-
-                            </div>
-
-                        )}
+                        <MemberRegisterForm
+                            onSuccess={() => setOpenMemberForm(false)}
+                        />
 
                     </div>
 
                 </div>
-
             )}
 
         </div>

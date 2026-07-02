@@ -78,13 +78,9 @@ public class OrderRepository
     public async Task<Order?> GetPaymentOrderAsync(int orderId)
     {
         return await _context.Orders
-
             .Include(x => x.MemberCard)
-
-            .Include(x => x.Table)
-
             .Include(x => x.OrderItems)
-
+            .ThenInclude(x => x.Dish)
             .FirstOrDefaultAsync(x => x.OrderId == orderId);
     }
 

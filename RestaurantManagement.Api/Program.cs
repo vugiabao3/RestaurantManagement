@@ -109,7 +109,7 @@ builder.Services.AddScoped<
     IMenuRepository,
     MenuRepository>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-
+builder.Services.AddScoped<IDiningTableRepository, DiningTableRepository>();
 builder.Services.AddScoped<ITableRepository, TableRepository>();
 
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();

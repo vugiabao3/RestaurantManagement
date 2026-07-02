@@ -2,11 +2,11 @@ import type { User } from "../../types/user";
 import UserCard from "./UserCard";
 
 interface Props {
-    users: User[];
+    users?: User[];
     reload: () => void;
 }
 
-export default function UserGrid({ users, reload }: Props) {
+export default function UserGrid({ users = [], reload }: Props) {
     return (
         <div className="user-grid">
             {users.map((u) => (

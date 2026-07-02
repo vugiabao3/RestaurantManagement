@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using RestaurantManagement.Application.Interfaces;
+using RestaurantManagement.Domain.Entities;
 
 namespace RestaurantManagement.Application.Orders.Commands.PlaceOrder;
 
@@ -8,13 +9,15 @@ public class PlaceOrderHandler
         PlaceOrderCommand,
         PlaceOrderResponse>
 {
-    private readonly IOrderRepository
-        _orderRepository;
+    private readonly IOrderRepository _orderRepository;
+    private readonly ITableRepository _tableRepository;
 
     public PlaceOrderHandler(
-        IOrderRepository orderRepository)
+        IOrderRepository orderRepository,
+        ITableRepository tableRepository)
     {
         _orderRepository = orderRepository;
+        _tableRepository = tableRepository;
     }
 
     public async Task<PlaceOrderResponse>
@@ -35,6 +38,18 @@ public class PlaceOrderHandler
 
         await _orderRepository
             .UpdateAsync(order);
+        //--------------------------------------------------
+        // UPDATE TABLE STATUS
+        //--------------------------------------------------
+
+        var table = await _tableRepository.GetByIdAsync(order.TableId);
+
+        if (table != null)
+        {
+            table.CurrentStatus = TableStatus.Occupied;
+
+            await _tableRepository.UpdateAsync(table);
+        }
 
         return new PlaceOrderResponse
         {

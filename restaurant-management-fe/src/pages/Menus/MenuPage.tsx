@@ -15,12 +15,18 @@ import MenuForm from "../../components/menus/MenuForm";
 import { canManage } from "../../utils/auth";
 import { addToCart } from "../../api/orderApi";
 import { getCart } from "../../api/orderApi";
+
+
+
+import { getAvailableTables } from "../../api/tableApi";
+
+import type { DiningTable } from "../../types/table";
 export default function MenuPage() {
 const navigate = useNavigate();
     const [menus, setMenus] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
     const [dishes, setDishes] = useState<any[]>([]);
-
+const [tables,setTables]=useState<DiningTable[]>([]);
     const [selectedMenu, setSelectedMenu] = useState<any>(null);
     const [selectedCategory, setSelectedCategory] = useState<any>(null);
 
@@ -52,11 +58,18 @@ const navigate = useNavigate();
         const res = await getCategoriesByMenu(menu.menuId);
         setCategories(res.data);
     };
+    
 const loadCart = async () => {
     try {
-        const res = await getCart();
+        const userId = Number(localStorage.getItem("userId"));
 
-        const total = (res.data || []).reduce(
+        if (!userId) return;
+
+        const res = await getCart(userId);
+
+        const items = res.data?.items || [];
+
+        const total = items.reduce(
             (sum: number, item: any) => sum + item.quantity,
             0
         );
@@ -75,12 +88,31 @@ const loadCart = async () => {
     };
 
     // OPEN MODAL ADD TO CART
-    const openAddToCart = (dish: any) => {
-        setSelectedDish(dish);
-        setQuantity(1);
-        setTableId(1);
-        setOpenCart(true);
-    };
+    const openAddToCart = async (dish:any)=>{
+
+    setSelectedDish(dish);
+
+    setQuantity(1);
+
+    const res=await getAvailableTables();
+
+    setTables(res.data);
+if(res.data.length===0){
+
+    alert("Hiện tại không còn bàn trống");
+
+    return;
+
+}
+    if(res.data.length>0){
+
+        setTableId(res.data[0].tableId);
+
+    }
+
+    setOpenCart(true);
+
+};
 
     // CONFIRM ADD TO CART
     const handleConfirmAddToCart = async () => {
@@ -258,11 +290,33 @@ const loadCart = async () => {
                         />
 
                         <label>Bàn</label>
-                        <input
-                            type="number"
-                            value={tableId}
-                            onChange={(e) => setTableId(Number(e.target.value))}
-                        />
+                        <select
+    value={tableId}
+    onChange={(e)=>
+        setTableId(Number(e.target.value))
+    }
+>
+
+    {
+
+        tables.map(table=>(
+
+            <option
+                key={table.tableId}
+                value={table.tableId}
+            >
+
+                Bàn {table.tableNumber}
+
+                ({table.capacity} người)
+
+            </option>
+
+        ))
+
+    }
+
+</select>
 
                         <div className="cart-actions">
 

@@ -18,74 +18,39 @@ public class PreviewInvoiceHandler
     }
 
     public async Task<PreviewInvoiceResponse> Handle(
-        PreviewInvoiceQuery request,
-        CancellationToken cancellationToken)
+     PreviewInvoiceQuery request,
+     CancellationToken cancellationToken)
     {
-        //----------------------------------------------------
-        // Lấy Order
-        //----------------------------------------------------
-
-        var order =
-            await _orderRepository
-                .GetPaymentOrderAsync(request.OrderId);
+        var order = await _orderRepository.GetPaymentOrderAsync(request.OrderId);
 
         if (order == null)
             throw new Exception("Order not found.");
 
-        //----------------------------------------------------
-        // Chỉ được thanh toán khi Chef nấu xong
-        //----------------------------------------------------
-
         if (order.Status != OrderStatus.Ready)
-            throw new Exception(
-                "Order is not ready.");
+            throw new Exception("Order is not ready.");
+
+        var member = order.MemberCard; // 👈 phải có FK mới ra
+
+        bool hasMember = member != null;
+
+        string? memberName = member?.FullName;
+        int loyaltyPoints = member?.LoyaltyPoints ?? 0;
 
         decimal total = order.TotalAmount;
+        decimal discount = hasMember ? loyaltyPoints * 1000 : 0;
 
-        decimal discount = 0;
-
-        bool hasMember = false;
-
-        string? memberName = null;
-
-        //----------------------------------------------------
-        // Có Member Card
-        //----------------------------------------------------
-
-        if (order.MemberCard != null)
-        {
-            hasMember = true;
-
-            memberName =
-                order.MemberCard.FullName;
-
-            //------------------------------------------------
-            // Ví dụ:
-            // 1 điểm = 1.000 VNĐ
-            //------------------------------------------------
-
-            discount =
-                order.MemberCard.LoyaltyPoints * 1000;
-
-            if (discount > total)
-            {
-                discount = total;
-            }
-        }
+        if (discount > total)
+            discount = total;
 
         return new PreviewInvoiceResponse
         {
             OrderId = order.OrderId,
-
             Total = total,
-
             Discount = discount,
-
             FinalAmount = total - discount,
-
             HasMemberCard = hasMember,
-
-            MemberName = memberName
+            MemberName = memberName,
+            LoyaltyPoints = loyaltyPoints
         };
     }
 }

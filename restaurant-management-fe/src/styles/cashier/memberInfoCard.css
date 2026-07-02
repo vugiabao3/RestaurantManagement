@@ -1,0 +1,77 @@
+.member-info-card{
+
+    width:100%;
+
+    background:#ffffff;
+
+    border-radius:12px;
+
+    margin-top:20px;
+
+    padding:20px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    border:1px solid #e8e8e8;
+
+}
+
+.member-title{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#2e7d32;
+
+    margin-bottom:20px;
+
+}
+
+.member-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #eee;
+
+    font-size:17px;
+
+}
+
+.member-row:last-child{
+
+    border-bottom:none;
+
+}
+
+.label{
+
+    font-weight:600;
+
+    color:#555;
+
+}
+
+.discount{
+
+    color:#d32f2f;
+
+    font-weight:bold;
+
+}
+
+.total{
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:#1976d2;
+
+}

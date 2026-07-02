@@ -27,12 +27,13 @@ export default function UserPage() {
     return (
         <div className="user-page">
             <h1>Users Management</h1>
-
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                <UserGrid users={users} reload={fetchUsers} />
-            )}
+{loading ? (
+    <p>Loading...</p>
+) : users.length === 0 ? (
+    <p>No users</p>
+) : (
+    <UserGrid users={users} reload={fetchUsers} />
+)}
         </div>
     );
 }
