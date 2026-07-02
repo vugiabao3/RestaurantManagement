@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagement.Application.Auth.Commands.SetUserRole;
+using RestaurantManagement.Application.Users.Queries.GetAllUsers;
 
 namespace RestaurantManagement.API.Controllers;
 
@@ -26,6 +27,15 @@ public class UsersController : ControllerBase
 
         var result =
             await _mediator.Send(command);
+
+        return Ok(result);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var result =
+            await _mediator.Send(
+                new GetAllUsersQuery());
 
         return Ok(result);
     }

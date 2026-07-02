@@ -39,9 +39,9 @@ public class AddDishToCartHandler
             throw new Exception("Dish not found");
 
         var order =
-            await _orderRepository
-                .GetCartByCustomerAsync(
-                    request.CustomerId);
+    await _orderRepository
+        .GetCartByCustomerAsync(
+            request.CustomerId);
 
         if (order == null)
         {
@@ -51,7 +51,9 @@ public class AddDishToCartHandler
 
                 TableId = request.TableId,
 
-                MemberId = request.MemberId,
+                MemberId = request.MemberId == 0
+                    ? null
+                    : request.MemberId,
 
                 CreatedAt = DateTime.Now,
 
@@ -61,6 +63,32 @@ public class AddDishToCartHandler
             };
 
             await _orderRepository.AddAsync(order);
+        }
+        else
+        {
+            //--------------------------------------------------
+            // UPDATE MEMBER & TABLE CHO CART ĐÃ TỒN TẠI
+            //--------------------------------------------------
+
+            bool needUpdate = false;
+
+            if (request.MemberId > 0 &&
+                order.MemberId != request.MemberId)
+            {
+                order.MemberId = request.MemberId;
+                needUpdate = true;
+            }
+
+            if (order.TableId != request.TableId)
+            {
+                order.TableId = request.TableId;
+                needUpdate = true;
+            }
+
+            if (needUpdate)
+            {
+                await _orderRepository.UpdateAsync(order);
+            }
         }
 
         var item =

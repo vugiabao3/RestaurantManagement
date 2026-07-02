@@ -18,7 +18,7 @@ namespace RestaurantManagement.Application.Interfaces
         Task<User?> GetByEmailAsync(string email);
         Task UpdateAsync(User user);
         Task<User?> GetByIdAsync(int id);
-
+        Task<List<User>> GetAllAsync();
 
     }
 }

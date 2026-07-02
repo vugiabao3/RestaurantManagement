@@ -50,6 +50,13 @@ namespace RestaurantManagement.Infrastructure.Persistence
      .WithMany()
      .HasForeignKey(o => o.MemberId)
      .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Invoice>()
+    .HasOne(i => i.MemberCard)
+    .WithMany(m => m.Invoices)
+    .HasForeignKey(i => i.MemberId)
+    .OnDelete(DeleteBehavior.Restrict);
         }
+
+
     }
 }

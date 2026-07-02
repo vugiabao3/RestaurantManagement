@@ -1,12 +1,21 @@
 export interface User {
-    id: number;
-    fullName: string;
-    username: string;
-    role: string;
-}
 
-export interface ChangeRoleRequest {
     userId: number;
-    role: string;
-}
 
+    username: string;
+
+    fullName: string;
+
+    email: string;
+
+    phone: string;
+
+    role: string;
+
+    createdAt: string;
+
+    lastLogin?: string | null;
+
+    status: boolean;
+
+}

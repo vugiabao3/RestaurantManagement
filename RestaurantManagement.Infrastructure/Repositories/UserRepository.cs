@@ -62,5 +62,12 @@ namespace RestaurantManagement.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await _context.User
+                .OrderBy(x => x.UserId)
+                .ToListAsync();
+        }
+
     }
 }

@@ -1,0 +1,115 @@
+.user-card{
+
+    background:white;
+
+    border-radius:15px;
+
+    box-shadow:
+
+    0 4px 15px rgba(0,0,0,.08);
+
+    padding:20px;
+
+    transition:.25s;
+
+}
+
+.user-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.user-card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+}
+
+.user-card-header h3{
+
+    margin:0;
+
+}
+
+.role-badge{
+
+    padding:6px 14px;
+
+    border-radius:20px;
+
+    color:white;
+
+    font-size:14px;
+
+}
+
+.role-badge.admin{
+
+    background:#d32f2f;
+
+}
+
+.role-badge.cashier{
+
+    background:#1976d2;
+
+}
+
+.role-badge.chef{
+
+    background:#43a047;
+
+}
+
+.role-badge.customer{
+
+    background:#757575;
+
+}
+
+.user-info{
+
+    margin-top:15px;
+
+}
+
+.user-info p{
+
+    margin:8px 0;
+
+}
+
+.change-role-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    border:none;
+
+    background:#1565c0;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+.change-role-btn:hover{
+
+    background:#0d47a1;
+
+}

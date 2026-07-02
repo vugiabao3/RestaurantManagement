@@ -1,54 +1,111 @@
-import { useState } from "react";
+import "../../styles/users/userCard.css";
+
 import type { User } from "../../types/user";
-import userApi from "../../api/userApi";
-import RoleSelect from "./RoleSelect";
 
 interface Props {
+
     user: User;
-    onUpdated: () => void;
+
+    onChangeRole: (user: User) => void;
+
 }
 
-export default function UserCard({ user, onUpdated }: Props) {
+export default function UserCard({
 
-const [role, setRole] = useState(user?.role ?? "Customer");    const [loading, setLoading] = useState(false);
+    user,
 
-    const handleUpdate = async () => {
-        try {
-            setLoading(true);
+    onChangeRole
 
-            await userApi.changeRole({
-                userId: user.id,
-                role: role
-            });
+}: Props) {
 
-            alert("Update role success!");
-            onUpdated();
-
-        } catch (err) {
-            console.log(err);
-            alert("Update failed!");
-        } finally {
-            setLoading(false);
-        }
-    };
+    const roleClass = user.role.toLowerCase();
 
     return (
+
         <div className="user-card">
-            <h3>{user.fullName}</h3>
-            <p>@{user.username}</p>
 
-            <div className="role-box">
-                <label>Role:</label>
+            <div className="user-card-header">
 
-                <RoleSelect value={role} onChange={setRole} />
+                <h3>{user.fullName}</h3>
+
+                <span className={`role-badge ${roleClass}`}>
+
+                    {user.role}
+
+                </span>
+
+            </div>
+
+            <div className="user-info">
+
+                <p>
+
+                    <b>ID:</b>
+
+                    {user.userId}
+
+                </p>
+
+                <p>
+
+                    <b>Username:</b>
+
+                    {user.username}
+
+                </p>
+
+                <p>
+
+                    <b>Email:</b>
+
+                    {user.email}
+
+                </p>
+
+                <p>
+
+                    <b>Phone:</b>
+
+                    {user.phone}
+
+                </p>
+
+                <p>
+
+                    <b>Trạng thái:</b>
+
+                    {
+
+                        user.status
+
+                        ?
+
+                        "Đang hoạt động"
+
+                        :
+
+                        "Đã khóa"
+
+                    }
+
+                </p>
+
             </div>
 
             <button
-                onClick={handleUpdate}
-                disabled={loading}
+
+                className="change-role-btn"
+
+                onClick={() => onChangeRole(user)}
+
             >
-                {loading ? "Updating..." : "Update"}
+
+                Đổi Role
+
             </button>
+
         </div>
+
     );
+
 }

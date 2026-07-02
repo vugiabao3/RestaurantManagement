@@ -4,7 +4,6 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import ResetPassword from "../pages/Auth/ResetPassword";
-
 import CashierDashboard from "../pages/Cashier/CashierDashboard";
 import PaymentPage from "../pages/Cashier/PaymentPage";
 import Dashboard from "../pages/Dashboard/Dashboard";
